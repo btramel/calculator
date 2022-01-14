@@ -46,29 +46,29 @@ function clickButton() {
                 updateDisplay();
             }
         )   
-        buttons[i].addEventListener('touchend', function() {
-            if(buttons[i].classList.contains('operand')) {
-                inputOperand(buttons[i].value);
-                updateDisplay();
-            } else if(buttons[i].classList.contains('operator')) {
-                inputOperator(buttons[i].value);
-            } else if(buttons[i].classList.contains('equals')) {
-                inputEquals();
-                updateDisplay();
-            } else if(buttons[i].classList.contains('decimal')) {
-                inputDecimal(buttons[i].value);
-                updateDisplay();
-            } else if(buttons[i].classList.contains('percent')) {
-                inputPercent(displayValue);
-                updateDisplay();
-            } else if(buttons[i].classList.contains('sign')) {
-                inputSign(displayValue);
-                updateDisplay();
-            } else if(buttons[i].classList.contains('clear'))
-                clearDisplay();
-                updateDisplay();
-            }
-        )
+        // buttons[i].addEventListener('touchend', function() {
+        //     if(buttons[i].classList.contains('operand')) {
+        //         inputOperand(buttons[i].value);
+        //         updateDisplay();
+        //     } else if(buttons[i].classList.contains('operator')) {
+        //         inputOperator(buttons[i].value);
+        //     } else if(buttons[i].classList.contains('equals')) {
+        //         inputEquals();
+        //         updateDisplay();
+        //     } else if(buttons[i].classList.contains('decimal')) {
+        //         inputDecimal(buttons[i].value);
+        //         updateDisplay();
+        //     } else if(buttons[i].classList.contains('percent')) {
+        //         inputPercent(displayValue);
+        //         updateDisplay();
+        //     } else if(buttons[i].classList.contains('sign')) {
+        //         inputSign(displayValue);
+        //         updateDisplay();
+        //     } else if(buttons[i].classList.contains('clear'))
+        //         clearDisplay();
+        //         updateDisplay();
+        //     }
+        // )
 }}
 
 clickButton();
