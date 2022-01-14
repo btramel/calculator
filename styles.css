@@ -81,13 +81,10 @@ button {
     border-radius:1em;
 }
 
-.active:active {
-    background-color:lightcyan;
-    color: black;
-}
-
+.active:active,
 .operator:focus {
-    background-color:ivory;
+    opacity: .7;
+    color: black;
 }
 
 .silver {
