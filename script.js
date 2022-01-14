@@ -1,103 +1,207 @@
-// initializer
-let total = 0;
-let operator;
-// basic functions
-const add = (input1, input2) => total = input1 + input2;
-const subtract = (input1, input2) => total = input1 - input2;
-const divide = (input1, input2) => total = input1 / input2;
-const multiply = (input1, input2) => total = input1 * input2;
-const operate = (operator, input1, input2) => {
-    // need to tie operator to a button press
-    if ( operator === plus ) { add(input1, input2) }
-    else if ( operator === minus ) { subtract(input1, input2) }
-    else if ( operator === division ) { divide(input1, input2) }
-    else if ( operator === times ) { multiply(input1, input2) }
-    else return; 
-}
-
-// gets all buttons
+let displayValue = '0';
+let firstOperand = null;
+let secondOperand = null;
+let firstOperator = null;
+let secondOperator = null;
+let result = null;
 const buttons = document.querySelectorAll('button');
 
-// adds click event to each button
-buttons.forEach(function (i) {
-    i.addEventListener('click', () => {
-        if (!input1) {
-        input1 = i.getAttribute('class');
-        return input1;
+window.addEventListener('keydown', function(e){
+    const key = document.querySelector(`button[data-key='${e.keyCode}']`);
+    key.click();
+});
+
+function updateDisplay() {
+    const display = document.getElementById('display');
+    display.innerText = displayValue;
+    if(displayValue.length > 7) {
+        display.innerText = displayValue.substring(0, 7);
+    }
+}
+  
+updateDisplay();
+
+function clickButton() {
+    for(let i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function() {
+            if(buttons[i].classList.contains('operand')) {
+                inputOperand(buttons[i].value);
+                updateDisplay();
+            } else if(buttons[i].classList.contains('operator')) {
+                inputOperator(buttons[i].value);
+            } else if(buttons[i].classList.contains('equals')) {
+                inputEquals();
+                updateDisplay();
+            } else if(buttons[i].classList.contains('decimal')) {
+                inputDecimal(buttons[i].value);
+                updateDisplay();
+            } else if(buttons[i].classList.contains('percent')) {
+                inputPercent(displayValue);
+                updateDisplay();
+            } else if(buttons[i].classList.contains('sign')) {
+                inputSign(displayValue);
+                updateDisplay();
+            } else if(buttons[i].classList.contains('clear'))
+                clearDisplay();
+                updateDisplay();
+            }
+        )   
+        buttons[i].addEventListener('touchend', function() {
+            if(buttons[i].classList.contains('operand')) {
+                inputOperand(buttons[i].value);
+                updateDisplay();
+            } else if(buttons[i].classList.contains('operator')) {
+                inputOperator(buttons[i].value);
+            } else if(buttons[i].classList.contains('equals')) {
+                inputEquals();
+                updateDisplay();
+            } else if(buttons[i].classList.contains('decimal')) {
+                inputDecimal(buttons[i].value);
+                updateDisplay();
+            } else if(buttons[i].classList.contains('percent')) {
+                inputPercent(displayValue);
+                updateDisplay();
+            } else if(buttons[i].classList.contains('sign')) {
+                inputSign(displayValue);
+                updateDisplay();
+            } else if(buttons[i].classList.contains('clear'))
+                clearDisplay();
+                updateDisplay();
+            }
+        )
+}}
+
+clickButton();
+
+function inputOperand(operand) {
+    if(firstOperator === null) {
+        if(displayValue === '0' || displayValue === 0) {
+            //1st click - handles first operand input
+            displayValue = operand;
+        } else if(displayValue === firstOperand) {
+            //starts new operation after inputEquals()
+            displayValue = operand;
+        } else {
+            displayValue += operand;
         }
-        else {
-            input2 = i.getAttribute('class');
-            return input2;
+    } else {
+        //3rd/5th click - inputs to secondOperand
+        if(displayValue === firstOperand) {
+            displayValue = operand;
+        } else {
+            displayValue += operand;
         }
-    })
-})
+    }
+}
 
+function inputOperator(operator) {
+    if(firstOperator != null && secondOperator === null) {
+        //4th click - handles input of second operator
+        secondOperator = operator;
+        secondOperand = displayValue;
+        result = operate(Number(firstOperand), Number(secondOperand), firstOperator);
+        displayValue = roundAccurately(result, 15).toString();
+        firstOperand = displayValue;
+        result = null;
+    } else if(firstOperator != null && secondOperator != null) {
+        //6th click - new secondOperator
+        secondOperand = displayValue;
+        result = operate(Number(firstOperand), Number(secondOperand), secondOperator);
+        secondOperator = operator;
+        displayValue = roundAccurately(result, 15).toString();
+        firstOperand = displayValue;
+        result = null;
+    } else { 
+        //2nd click - handles first operator input
+        firstOperator = operator;
+        firstOperand = displayValue;
+    }
+}
 
+function inputEquals() {
+    //hitting equals doesn't display undefined before operate()
+    if(firstOperator === null) {
+        displayValue = displayValue;
+    } else if(secondOperator != null) {
+        //handles final result
+        secondOperand = displayValue;
+        result = operate(Number(firstOperand), Number(secondOperand), secondOperator);
+        if(result === 'lmao') {
+            displayValue = 'lmao';
+        } else {
+            displayValue = roundAccurately(result, 15).toString();
+            firstOperand = displayValue;
+            secondOperand = null;
+            firstOperator = null;
+            secondOperator = null;
+            result = null;
+        }
+    } else {
+        //handles first operation
+        secondOperand = displayValue;
+        result = operate(Number(firstOperand), Number(secondOperand), firstOperator);
+        if(result === 'lmao') {
+            displayValue = 'lmao';
+        } else {
+            displayValue = roundAccurately(result, 15).toString();
+            firstOperand = displayValue;
+            secondOperand = null;
+            firstOperator = null;
+            secondOperator = null;
+            result = null;
+        }
+    }
+}
 
+function inputDecimal(dot) {
+    if(displayValue === firstOperand || displayValue === secondOperand) {
+        displayValue = '0';
+        displayValue += dot;
+    } else if(!displayValue.includes(dot)) {
+        displayValue += dot;
+    } 
+}
 
-// add id or something to each html element
-// add event listeners to each button w for loop looking for that id
-// add corresponding id to display div when clicked
-// create function that uses operate() by creating operator, input1, input2 and returning those values
+function inputPercent(num) {
+    displayValue = (num/100).toString();
+}
 
-const display = document.getElementById('display');
+function inputSign(num) {
+    displayValue = (num * -1).toString();
+}
 
-const displayValue; // running total to be displayed after pressing = or another operator
-const input1;       // store number and set displayValue to that number
-const operator;     // store operator to be used and update display
-const input2;       // store number and set displayValue to that number
-const equals;       // run operate(), update displayValue
-const clear;        // sets display and displayValue to 0
+function clearDisplay() {
+    displayValue = '0';
+    firstOperand = null;
+    secondOperand = null;
+    firstOperator = null;
+    secondOperator = null;
+    result = null;
+}
 
-const posneg;       // set displayValue to the opposite
-const decimal;      // add decimal to displayValue
-const percent;      // idk
+function inputBackspace() {
+    if(firstOperand != null) {
+        firstOperand = null;
+        updateDisplay();
+    }
+}
 
+function operate(x, y, op) {
+    if(op === '+') {
+        return x + y;
+    } else if(op === '-') {
+        return x - y;
+    } else if(op === '*') {
+        return x * y;
+    } else if(op === '/') {
+        if(y === 0) {
+            return 'lmao';
+        } else {
+        return x / y;
+        }
+    }
+}
 
-
-
-
-
-
-
-// ***** FOR SPREAD OPERATOR CALCULATIONS ONLY *****
-
-// const add = (...inputs) => {
-    
-//     for (let input of inputs) total += input;
-
-//     return total;
-
-// }
-
-// const subtract = (...inputs) => {
-   
-//     // might need if/else statement. if this is first operator, initialize total. otherwise, do not
-
-//     total += inputs[0]*2; // initialize total to twice the first input
-
-//     for (let input of inputs) total -= input; // total = total - input
-
-//     return total;
-
-// }
-
-// const divide = (...inputs) => {
-
-//     total = inputs[0]**2; // initialize 
-
-//     for (let input of inputs) total /= input; // total = total / input
-
-//     return total;
-
-// }
-
-// const multiply = (...inputs) => {
-
-//     total = 1;
-
-//     for (let input of inputs) total *= input; /// total = total * input 
-
-//     return total;
-
-// }
+function roundAccurately(num, places) {
+    return parseFloat(Math.round(num + 'e' + places) + 'e-' + places);
+}

@@ -50,7 +50,7 @@ a:visited {
     grid-template-columns: repeat(auto, 1fr);
     grid-template-areas: 
         "display display display display"
-        "clear positive-negative percent divide"
+        "clear sign percent divide"
         "seven eight nine multiply"
         "four five six subtract"
         "one two three plus"
@@ -86,7 +86,7 @@ button {
     color: black;
 }
 
-.operand:focus {
+.operator:focus {
     background-color:ivory;
 }
 
@@ -108,8 +108,8 @@ button {
     grid-area: clear;
 }
 
-.positive-negative {
-    grid-area: positive-negative;
+.sign {
+    grid-area: sign;
 }
 
 .percent {
