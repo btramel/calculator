@@ -5,42 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css" class="">
-    <title>Let's Calculate</title>
+    <title>Calculator</title>
 </head>
 <body>
     <div class="container">
         <div class="calc">
 
+            <!-- display output -->
+            <div id="display">0</div>
+
             <!-- first row -->
-            <button class="clear blue">AC</button>
-            <button class="positive-negative blue">+/-</button>
-            <button class="percent blue">%</button>
-            <button class="divide orange">/</button>
+            <button class="clear silver active">AC</button>
+            <button class="positive-negative silver active">+/-</button>
+            <button class="percent silver active">%</button>
+            <button class="divide cyan operand">/</button>
 
             <!-- second row -->
-            <button class="seven green">7</button>
-            <button class="eight green">8</button>
-            <button class="nine green">9</button>
-            <button class="multiply orange">*</button>
+            <button class="seven charcoal active">7</button>
+            <button class="eight charcoal active">8</button>
+            <button class="nine charcoal active">9</button>
+            <button class="multiply cyan operand">*</button>
 
             <!-- third row -->
-            <button class="four green">4</button>
-            <button class="five green">5</button>
-            <button class="six green">6</button>
-            <button class="subtract">-</button>
+            <button class="four charcoal active">4</button>
+            <button class="five charcoal active">5</button>
+            <button class="six charcoal active">6</button>
+            <button class="subtract cyan operand">-</button>
 
             <!-- fourth row -->
-            <button class="one green">1</button>
-            <button class="two green">2</button>
-            <button class="three green">3</button>
-            <button class="plus orange">+</button>
+            <button class="one charcoal active">1</button>
+            <button class="two charcoal active">2</button>
+            <button class="three charcoal active">3</button>
+            <button class="plus cyan operand">+</button>
 
             <!-- fifth row -->
-            <button class="zero green wide">0</button>  <!-- wide zero button -->
-            <button class="decimal green">.</button>
-            <button class="equals orange">=</button>
+            <button class="zero charcoal active">0</button>  <!-- wide zero button -->
+            <button class="decimal charcoal active">.</button>
+            <button class="equals cyan active">=</button>
 
         </div>
+        <footer>Made with love by <a href="https://github.com/btramel" target="_blank">Brad Tramel</a>.</footer>
     </div>
     <script src="script.js"></script>
 </body>
